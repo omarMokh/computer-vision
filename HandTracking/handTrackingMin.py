@@ -10,7 +10,7 @@ import cv2
 import mediapipe as mp
 
 import time
-cap=cv2.VideoCapture(0)
+cap=cv2.VideoCapture("PoseVideos/1")
 mpHands=mp.solutions.hands
 hands = mpHands.Hands(max_num_hands=3)
 mpDraw=mp.solutions.drawing_utils
@@ -24,6 +24,7 @@ while True :
         for hand in results.multi_hand_landmarks: #pass over every hand in the video
             for id,lm in enumerate(hand.landmark): #pass over every point in the hand
                 h,w,c=img.shape
+                print(hand)
                 cx,cy=int(lm.x*w),int(lm.y*h) #the x,y codenates of the hand
                 cv2.putText(img,str(id),(int(cx),int(cy)),cv2.FONT_HERSHEY_PLAIN,3,(255,8,255),3) # write the cordenates in the picture
               
