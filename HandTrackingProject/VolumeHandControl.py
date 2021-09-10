@@ -1,3 +1,13 @@
+'''
+I used hand tracking module to build this project,
+
+this project enable you to update the colume of your computer using your finger gesture
+
+
+
+'''
+
+
 import cv2
 import time
 import numpy as np
@@ -9,7 +19,7 @@ from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume
 ################################
 wCam, hCam = 640, 480
 ################################
-cap = cv2.VideoCapture(1)
+cap = cv2.VideoCapture(0)
 cap.set(3, wCam)
 cap.set(4, hCam)
 pTime = 0
@@ -28,18 +38,18 @@ volBar = 400
 volPer = 0
 while True:
     success, img = cap.read()
-    img = detector.findHands(img)
+    img = detector.findHands(img) # we create this model, it will return the image whith the hand drawn on it
     lmList = detector.findPosition(img, draw=False)
     if len(lmList) != 0:
         # print(lmList[4], lmList[8])
-        x1, y1 = lmList[4][1], lmList[4][2]
-        x2, y2 = lmList[8][1], lmList[8][2]
+        x1, y1 = lmList[4][1], lmList[4][2] # tihs is the top of the first finger
+        x2, y2 = lmList[8][1], lmList[8][2] # this is the top of the socend finger
         cx, cy = (x1 + x2) // 2, (y1 + y2) // 2
-        cv2.circle(img, (x1, y1), 15, (255, 0, 255), cv2.FILLED)
+        cv2.circle(img, (x1, y1), 15, (255, 0, 255), cv2.FILLED) 
         cv2.circle(img, (x2, y2), 15, (255, 0, 255), cv2.FILLED)
-        cv2.line(img, (x1, y1), (x2, y2), (255, 0, 255), 3)
+        cv2.line(img, (x1, y1), (x2, y2), (255, 0, 255), 3) # draw line between the firs and the socnd fingers
         cv2.circle(img, (cx, cy), 15, (255, 0, 255), cv2.FILLED)
-        length = math.hypot(x2 - x1, y2 - y1)
+        length = math.hypot(x2 - x1, y2 - y1) #compute the distance between the two points
         # print(length)
         # Hand range 50 - 300
         # Volume Range -65 - 0
